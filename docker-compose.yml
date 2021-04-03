@@ -1,9 +1,0 @@
-version: '3'
-services:
-  db:
-    image: postgres:11
-    environment:
-      POSTGRES_PASSWORD: Local123
-      POSTGRES_DB: bolsalr_development
-    ports:
-      - "5432:5432"

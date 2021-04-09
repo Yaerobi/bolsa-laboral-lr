@@ -1,8 +1,9 @@
-import uuid
 import datetime
 
 from app.main import db
 from app.main.model.user import Users
+from app.main.model.technologies import Technologies
+from typing import List
 
 
 def save_new_user(data):
@@ -18,6 +19,7 @@ def save_new_user(data):
             email=data['email'],
             country_city_id=data['country_city_id'],
         )
+        save_technologies(new_user, data['technologies'])
         save_changes(new_user)
         response_object = {
             'status': 'success',
@@ -32,12 +34,18 @@ def save_new_user(data):
         return response_object, 409
 
 
+def save_technologies(user: Users, technologies_list: List):
+    for tech in technologies_list:
+        technology = Technologies.query.filter_by(id=tech)
+        user.technologies.append(technology)
+
+
 def get_all_users():
-    return User.query.all()
+    return Users.query.all()
 
 
-def get_a_user(public_id):
-    return User.query.filter_by(public_id=public_id).first()
+def get_a_user(username: str):
+    return Users.query.filter_by(user_id=username).first()
 
 
 def save_changes(data):

@@ -16,8 +16,9 @@ class Users(db.Model):
     country_city_id = db.Column(db.Integer, db.ForeignKey('countries_cities.id'),
                                 nullable=False)
 
-    technologies = db.relationship('Technologies', backref=db.backref('techs',
-                                                                      lazy=True))
+    # TODO: Fix the logic about how to do this. Many to many new table is need, isn't?
+    # technologies = db.relationship('Technologies', backref=db.backref('techs',
+    #                                                                   lazy=True))
     @property
     def password(self):
         raise AttributeError("password: write-only field")

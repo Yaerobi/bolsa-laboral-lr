@@ -19,7 +19,8 @@ def save_new_user(data):
             email=data['email'],
             country_city_id=data['country_city_id'],
         )
-        save_technologies(new_user, data['technologies'])
+        # TODO: Fix this in the future
+        # save_technologies(new_user, data['technologies'])
         save_changes(new_user)
         response_object = {
             'status': 'success',

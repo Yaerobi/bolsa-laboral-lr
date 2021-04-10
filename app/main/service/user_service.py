@@ -4,13 +4,15 @@ from app.main import db
 from app.main.model.user import Users
 from app.main.model.technologies import Technologies
 from typing import List
+from app.main.utils.db_utils import get_all, save_changes
+
 
 
 def save_new_user(data):
     user = Users.query.filter_by(email=data['email']).first()
     if not user:
         new_user = Users(
-            user_id=data['user_id'],
+            user_id=data['user'],
             password=data['password'],
             register_on=datetime.datetime.utcnow(),
             last_pass_change=datetime.datetime.utcnow(),
@@ -42,13 +44,8 @@ def save_technologies(user: Users, technologies_list: List):
 
 
 def get_all_users():
-    return Users.query.all()
+    return get_all(Users)
 
 
 def get_a_user(username: str):
     return Users.query.filter_by(user_id=username).first()
-
-
-def save_changes(data):
-    db.session.add(data)
-    db.session.commit()

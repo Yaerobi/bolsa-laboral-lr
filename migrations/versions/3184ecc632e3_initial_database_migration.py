@@ -45,10 +45,10 @@ def upgrade():
     )
     op.create_table('candidate',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('linkedin', sa.String(length=255), nullable=False),
+    sa.Column('linkedin', sa.String(length=255), nullable=True),
     sa.Column('other_webpage', sa.String(length=255), nullable=True),
     sa.Column('bio', sa.String(length=255), nullable=False),
-    sa.Column('github', sa.String(length=255), nullable=False),
+    sa.Column('github', sa.String(length=255), nullable=True),
     sa.Column('user_id', sa.String(length=255), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
     sa.PrimaryKeyConstraint('id'),

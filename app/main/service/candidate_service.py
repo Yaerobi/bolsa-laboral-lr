@@ -33,3 +33,7 @@ def save_new_candidate(data):
 def get_a_candidate(username: str):
     return Candidate.query.filter_by(user_id=username).first()
 
+
+def get_all_candidate(data):
+    return get_all(data)
+

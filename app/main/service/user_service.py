@@ -11,7 +11,7 @@ def save_new_user(data):
     if not user:
         new_user = Users(
             user_id=data['user_id'],
-            password_hash=data['password'],
+            password=data['password'],
             register_on=datetime.datetime.utcnow(),
             last_pass_change=datetime.datetime.utcnow(),
             name=data['name'],

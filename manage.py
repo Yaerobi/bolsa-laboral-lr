@@ -9,8 +9,10 @@ from app.main.model import countries_cities
 from app.main.model import technologies
 
 from app.main import create_app, db
+from app import blueprint
 
 app = create_app(os.getenv('APP_ENV') or 'dev')
+app.register_blueprint(blueprint)
 
 app.app_context().push()
 

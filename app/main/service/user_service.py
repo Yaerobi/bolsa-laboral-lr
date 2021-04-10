@@ -10,7 +10,7 @@ def save_new_user(data):
     user = Users.query.filter_by(email=data['email']).first()
     if not user:
         new_user = Users(
-            user_id=data['user'],
+            user_id=data['user_id'],
             password_hash=data['password'],
             register_on=datetime.datetime.utcnow(),
             last_pass_change=datetime.datetime.utcnow(),

@@ -1,5 +1,6 @@
 from app.main import db
 
+
 class Candidate(db.Model):
     __tablename__ = 'candidate'
 

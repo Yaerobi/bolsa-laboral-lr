@@ -264,7 +264,7 @@ class TestCandidateServices(TestCase):
             self.assertIn(f'bio', candidate.bio)
             self.assertIn(f'linkedin', candidate.linkedin)
 
-    def test_get_a_user(self):
+    def test_get_a_candidate(self):
         self.assertEqual([], get_all_users())
 
         user1 = Users(
@@ -288,29 +288,49 @@ class TestCandidateServices(TestCase):
             country_city_id='1',
         )
 
-        user3 = Users(
-            user_id='eamanu3',
-            password_hash='hola',
-            register_on=datetime.datetime.utcnow(),
-            last_pass_change=datetime.datetime.utcnow(),
-            name='Emmanuel',
-            surname='Arias',
-            email='eamanu3@yaerobi',
-            country_city_id='1',
+        candidate1 = Candidate(
+            user_id='eamanu',
+            linkedin='linkedin',
+            other_webpage='other_webpage',
+            bio='bio',
+            github='github'
         )
+
+        candidate2 = Candidate(
+            user_id='eamanu2',
+            linkedin='linkedin2',
+            other_webpage='other_webpage2',
+            bio='bio2',
+            github='github2'
+        )
+
         db.session.add(user1)
         db.session.add(user2)
-        db.session.add(user3)
+
+        db.session.add(candidate1)
+        db.session.add(candidate2)
 
         db.session.commit()
 
-        user = get_a_user('eamanu')
+        candidate, user = get_a_candidate('eamanu')
+
         self.assertEqual('Emmanuel', user.name)
         self.assertEqual('Arias', user.surname)
         self.assertEqual('eamanu@yaerobi', user.email)
         self.assertEqual('hola', user.password_hash)
+        self.assertEqual('linkedin', candidate.linkedin)
+        self.assertEqual('bio', candidate.bio)
 
-    def test_response_409_if_already_exist_user(self):
+        candidate, user = get_a_candidate('eamanu2')
+
+        self.assertEqual('Emmanuel', user.name)
+        self.assertEqual('Arias', user.surname)
+        self.assertEqual('eamanu2@yaerobi', user.email)
+        self.assertEqual('hola', user.password_hash)
+        self.assertEqual('linkedin2', candidate.linkedin)
+        self.assertEqual('bio2', candidate.bio)
+
+    def test_response_409_if_already_exist_candidate(self):
         self.assertEqual([], get_all_users())
 
         data = dict()
@@ -323,27 +343,36 @@ class TestCandidateServices(TestCase):
 
         response, code_status = save_new_user(data)
 
+        data = dict()
+        data['user'] = 'eamanu'
+        data['linkedin'] = 'test'
+        data['other_webpage'] = 'other_webpage'
+        data['bio'] = 'This is a bio'
+        data['github'] = 'github page'
+
+        response, code_status = save_new_candidate(data)
+
         response_object = {
             'status': 'success',
-            'message': 'Successfully registered.'
+            'message': 'Candidate Successfully registered.'
         }
         self.assertEqual(response_object, response)
         self.assertEqual(201, code_status)
 
         data = dict()
         data['user'] = 'eamanu'
-        data['password'] = 'hola'
-        data['name'] = 'Emmanuel'
-        data['surname'] = 'Arias'
-        data['email'] = 'eamanu@yaerobi.com'
-        data['country_city_id'] = '1'
+        data['linkedin'] = 'test'
+        data['other_webpage'] = 'other_webpage'
+        data['bio'] = 'This is a bio'
+        data['github'] = 'github page'
 
-        response, code_status = save_new_user(data)
+        response, code_status = save_new_candidate(data)
 
         response_object = {
             'status': 'fail',
-            'message': 'User already exists. Please Log in.'
+            'message': 'Candidate already exists.'
         }
+
         self.assertEqual(response_object, response)
         self.assertEqual(409, code_status)
 

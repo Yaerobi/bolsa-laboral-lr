@@ -32,8 +32,9 @@ def save_new_candidate(data):
 
 
 def get_a_candidate(username: str):
-    return Candidate.query.join(Users).filter(
-        Candidate.user_id == Users.user_id).first()
+    return db.session.query(Candidate, Users).filter(
+       Candidate.user_id == Users.user_id).filter(
+          Candidate.user_id == username).first()
 
 
 def get_all_candidate():

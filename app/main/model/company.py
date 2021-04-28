@@ -9,7 +9,7 @@ class Company(db.Model):
     description = db.Column(db.String(255), nullable=False)
 
     responsable = db.relationship("Responsable", back_populates="company")
-    job = db.relationship("Job", back_populates="job")
+    job = db.relationship("Job", back_populates="company")
 
 
 

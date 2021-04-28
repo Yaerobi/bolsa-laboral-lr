@@ -1,8 +1,5 @@
-import datetime
-
 from app.main import db
 from app.main.model.candidate import Candidate
-from typing import List
 from app.main.utils.db_utils import get_all, save_changes
 from app.main.model.user import Users
 

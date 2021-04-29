@@ -11,3 +11,11 @@ class UserDto:
         'user_id': fields.String(description='user Identifier'),
         'country_city_id': fields.String(description='Countr and city')
     })
+
+
+class AuthDto:
+    api = Namespace('auth', description='authentication related operations')
+    user_auth = api.model('auth_details', {
+        'user_id': fields.String(required=True, description='The user id'),
+        'password': fields.String(required=True, description='The user password '),
+    })

@@ -33,4 +33,4 @@ def get_a_responsable(username: str):
 
 def get_all_responsable():
     return db.session.query(Responsable, Users).filter(
-        Responsable.user_id==Users.user_id).all()
+        Responsable.user_id == Users.user_id).all()

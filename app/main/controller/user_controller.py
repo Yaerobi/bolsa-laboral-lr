@@ -1,5 +1,6 @@
 from flask import request
 from flask_restplus import Resource
+from flask_jwt_extended import jwt_required
 
 from app.main.utils.dto import UserDto
 from app.main.service.user_service import save_new_user, get_all_users, get_a_user
@@ -12,6 +13,7 @@ _user = UserDto.user
 class UserList(Resource):
     @api.doc('list_of_registered_users')
     @api.marshal_list_with(_user, envelope='data')
+    @jwt_required()
     def get(self):
         """List all registered users"""
         return get_all_users()

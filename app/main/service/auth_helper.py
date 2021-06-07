@@ -11,5 +11,4 @@ class Auth:
                 return 200
             return 401
         except Exception as err:
-            print(err)
             return 500

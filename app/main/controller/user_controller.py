@@ -21,6 +21,7 @@ class UserList(Resource):
     @api.response(201, 'User successfully created.')
     @api.doc('create a new user')
     @api.expect(_user, validate=True)
+    @jwt_required()
     def post(self):
         """Creates a new User """
         data = request.json
@@ -33,6 +34,7 @@ class UserList(Resource):
 class User(Resource):
     @api.doc('get a user')
     @api.marshal_with(_user)
+    @jwt_required()
     def get(self, user_id):
         """get a user given its identifier"""
         user = get_a_user(user_id)

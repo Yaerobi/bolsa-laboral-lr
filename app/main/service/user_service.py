@@ -7,7 +7,6 @@ from typing import List
 from app.main.utils.db_utils import get_all, save_changes
 
 
-
 def save_new_user(data):
     user = Users.query.filter_by(email=data['email']).first()
     if not user:

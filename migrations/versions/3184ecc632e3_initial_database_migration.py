@@ -8,6 +8,7 @@ Create Date: 2021-04-03 18:05:24.850379
 from alembic import op
 import sqlalchemy as sa
 import csv
+import datetime
 
 # revision identifiers, used by Alembic.
 revision = '3184ecc632e3'
@@ -29,10 +30,10 @@ def upgrade():
     sa.Column('province', sa.String(length=255), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('users',
+    users = op.create_table('users',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('user_id', sa.String(length=255), nullable=False),
-    sa.Column('password_hash', sa.String(length=100), nullable=True),
+    sa.Column('password_hash', sa.String(length=100), nullable=False),
     sa.Column('register_on', sa.DateTime(), nullable=False),
     sa.Column('last_pass_change', sa.DateTime(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=False),
@@ -55,6 +56,17 @@ def upgrade():
     sa.UniqueConstraint('bio')
     )
     # ### end Alembic commands ###
+
+    admin_user = [{'user_id': 'admin',
+                  'password_hash': "$2b$12$L1Glnc6IiLezG2J4.hdNJ.DONz2rIWX0V.P98wLUQXH120pci1YP2",
+                  "register_on": datetime.datetime(2021, 1, 1),
+                  "last_pass_change": datetime.datetime(2021, 1, 1),
+                  "name": 'admin',
+                  "surname": 'admin',
+                  "email": 'admin@admin.com',
+                  "country_city_id": 1
+                  }]
+    op.bulk_insert(users, admin_user)
 
     with open('worldcities.csv', 'r') as f:
         reader = csv.DictReader(f)
